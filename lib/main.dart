@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:motorstar/materials/screens.dart';
 import 'package:motorstar/pages/login.dart';
 
+import 'api/binding/controller_binding.dart';
+
 void main() {
+  GetXBinding().dependencies();
   runApp(const MyApp());
 }
 
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: LoginScreen(),
       getPages: getPages,
     );
   }

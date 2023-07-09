@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motorstar/api/controller/login_controller.dart';
 
 import '../materials/screens.dart';
 
@@ -11,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  LoginController loginController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +164,18 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [TextData.userName, TextData.userCntrlNumber],
+            children: [
+              Text(
+                loginController.emailController.text.toString(),
+                style: const TextStyle(
+                    fontSize: 12, color: ColorPalette.titleColor),
+              ),
+              Text(
+                loginController.passwordController.text.toString(),
+                style: const TextStyle(
+                    fontSize: 12, color: ColorPalette.titleColor),
+              ),
+            ],
           ),
         ),
         _buildOverdue(),

@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 import 'package:motorstar/materials/data_builder.dart';
 import 'package:motorstar/pages/product_description.dart';
 
+import '../api/controller/profile_controller.dart';
 import '../materials/screens.dart';
 
 class RedeemRewardsScreen extends StatefulWidget {
@@ -14,19 +16,30 @@ class RedeemRewardsScreen extends StatefulWidget {
 }
 
 class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
+  ProfileController profileController = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[_buildSliverAppBar(), _buildSliverList()],
-      ),
-    );
+        body: FutureBuilder<dynamic>(
+            future: profileController.product(),
+            builder: (context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasData) {
+                return CustomScrollView(
+                  slivers: <Widget>[_buildSliverAppBar(), _buildSliverList()],
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }));
   }
 
   SliverList _buildSliverList() {
     return SliverList(
-        delegate:
-            SliverChildListDelegate(List.generate(itemsdata.length, (index) {
+        delegate: SliverChildListDelegate(
+            List.generate(profileController.productData.length, (index) {
       return _buildList(index);
     })));
   }
@@ -57,15 +70,19 @@ class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
   Row _buildItem(int index) {
     return Row(
       children: [
-        Image.asset(itemsdata[index].viewImage),
+        // Image.memory(base64Decode(
+        //     profileController.productData[index]['blbItemPicture'])),
         Expanded(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildItemName(index),
-              _buildItemPointsValue(index),
+              Text(
+                profileController.productData[index]['strDescription'],
+                style: const TextStyle(
+                    fontSize: 15, color: ColorPalette.textColor),
+              ),
             ],
           ),
         )),

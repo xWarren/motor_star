@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motorstar/api/controller/login_controller.dart';
 
 import '../materials/screens.dart';
 
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   bool obscureText = true;
+  LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(10),
                 )),
             onPressed: () {
-              Get.toNamed(Routes.navigatorScreen);
+              loginController.login();
             },
             child: const Text(
               "Login",
@@ -84,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: passwordController,
+        controller: loginController.passwordController,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
         obscureText: obscureText,
@@ -123,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: emailController,
+        controller: loginController.emailController,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
