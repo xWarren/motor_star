@@ -17,7 +17,6 @@ class RedeemRewardsScreen extends StatefulWidget {
 
 class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
   ProfileController profileController = Get.put(ProfileController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,8 +69,8 @@ class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
   Row _buildItem(int index) {
     return Row(
       children: [
-        // Image.memory(base64Decode(
-        //     profileController.productData[index]['blbItemPicture'])),
+        // Image.memory(json
+        //     .decode(profileController.productData[index]['blbItemPicture'])),
         Expanded(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -79,7 +78,7 @@ class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                profileController.productData[index]['strDescription'],
+                profileController.productData[index]['strItemName'],
                 style: const TextStyle(
                     fontSize: 15, color: ColorPalette.textColor),
               ),

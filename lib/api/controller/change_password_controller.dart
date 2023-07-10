@@ -8,36 +8,37 @@ import 'package:http/http.dart' as http;
 import '../../materials/routes.dart';
 import '../endpoints/api.dart';
 
-class LoginController extends GetxController {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class ChangePasswordController extends GetxController {
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   var isLoading = false.obs;
   @override
   Future<void> onInit() async {
     super.onInit();
-    login();
+    changepass();
   }
 
-  login() async {
+  changepass() async {
     try {
       isLoading(true);
       http.Response response = await http.post(
-          Uri.tryParse(EndPoints.baseUrl + EndPoints.authEndPoints.login)!,
+          Uri.tryParse(
+              EndPoints.baseUrl + EndPoints.authEndPoints.changepassword)!,
           body: {
-            "strEmail": emailController.text,
-            "strPassword": passwordController.text,
+            "strPassword": newPasswordController.text,
           });
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         if (result.toString() == "Success") {
           Fluttertoast.showToast(
-            msg: 'Login Successful',
+            msg: 'Change Password Successful',
             backgroundColor: Colors.green,
             textColor: Colors.white,
             toastLength: Toast.LENGTH_SHORT,
           );
-          Get.toNamed(Routes.navigatorScreen);
+          Get.toNamed(Routes.loginScreen);
         } else {
           Fluttertoast.showToast(
             backgroundColor: Colors.red,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motorstar/api/controller/change_password_controller.dart';
 
 import '../materials/screens.dart';
 
@@ -18,6 +19,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool oldPasswordText = true;
   bool newPasswordText = true;
   bool confirmPasswordText = true;
+  ChangePasswordController changePasswordController =
+      Get.put(ChangePasswordController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +61,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 )),
-            onPressed: () {},
+            onPressed: () {
+              changePasswordController.changepass();
+            },
             child: TextData.buttonChangePasswordText),
       ),
     );
@@ -68,7 +73,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: confirmPasswordController,
+        controller: changePasswordController.confirmPasswordController,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
         obscureText: confirmPasswordText,
@@ -101,7 +106,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: newPasswordController,
+        controller: changePasswordController.newPasswordController,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         obscureText: newPasswordText,
@@ -134,7 +139,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: oldPasswordController,
+        controller: changePasswordController.oldPasswordController,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         obscureText: oldPasswordText,
