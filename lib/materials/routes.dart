@@ -5,8 +5,6 @@ import 'package:motorstar/pages/login.dart';
 import 'package:motorstar/pages/navigator.dart';
 import 'package:motorstar/pages/redeem_rewards.dart';
 
-import '../api/binding/controller_binding.dart';
-
 class Routes {
   static String loginScreen = '/login';
   static String homeScreen = '/home';
@@ -19,7 +17,6 @@ final getPages = [
   GetPage(
     name: Routes.loginScreen,
     page: () => const LoginScreen(),
-    binding: GetXBinding(),
   ),
   GetPage(
     name: Routes.homeScreen,

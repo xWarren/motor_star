@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motorstar/materials/data_builder.dart';
 import 'package:motorstar/pages/product_description.dart';
 
-import '../api/controller/profile_controller.dart';
 import '../materials/screens.dart';
 
 class RedeemRewardsScreen extends StatefulWidget {
@@ -16,29 +13,18 @@ class RedeemRewardsScreen extends StatefulWidget {
 }
 
 class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
-  ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<dynamic>(
-            future: profileController.product(),
-            builder: (context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasData) {
-                return CustomScrollView(
-                  slivers: <Widget>[_buildSliverAppBar(), _buildSliverList()],
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }));
+        body: CustomScrollView(
+      slivers: <Widget>[_buildSliverAppBar(), _buildSliverList()],
+    ));
   }
 
   SliverList _buildSliverList() {
     return SliverList(
-        delegate: SliverChildListDelegate(
-            List.generate(profileController.productData.length, (index) {
+        delegate:
+            SliverChildListDelegate(List.generate(itemsdata.length, (index) {
       return _buildList(index);
     })));
   }
@@ -78,7 +64,7 @@ class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                profileController.productData[index]['strItemName'],
+                itemsdata[index].itemName,
                 style: const TextStyle(
                     fontSize: 15, color: ColorPalette.textColor),
               ),
@@ -86,20 +72,6 @@ class _RedeemRewardsScreenState extends State<RedeemRewardsScreen> {
           ),
         )),
       ],
-    );
-  }
-
-  Text _buildItemName(int index) {
-    return Text(
-      itemsdata[index].itemName,
-      style: const TextStyle(fontSize: 15, color: ColorPalette.textColor),
-    );
-  }
-
-  Text _buildItemPointsValue(int index) {
-    return Text(
-      "${itemsdata[index].pointsValue.toStringAsFixed(2)} Points",
-      style: const TextStyle(fontSize: 15, color: ColorPalette.itemPointsColor),
     );
   }
 

@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motorstar/pages/home.dart';
-import 'package:motorstar/register/register.dart';
+import 'package:motorstar/register/register_controller.dart';
 
 import '../materials/screens.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class _RegisterState extends State<Register> {
+  RegisterController controller = Get.put(RegisterController());
 
   bool obscureText = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Register"),
+        leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: const Icon(Icons.exit_to_app_rounded)),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -37,27 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 10),
               _buildPasswordField(),
               const SizedBox(height: 50),
-              _buildLoginButton(),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don't have an account?",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  const SizedBox(width: 5),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(const Register());
-                    },
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(color: ColorPalette.elevatedButtonColor),
-                    ),
-                  ),
-                ],
-              )
+              _buildLoginButton()
             ],
           ),
         ),
@@ -90,10 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(10),
                 )),
             onPressed: () {
-              Get.to(const HomeScreen());
+              controller.register(controller.emailController.text,
+                  controller.passwordController.text);
             },
             child: const Text(
-              "Login",
+              "Register",
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -107,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: passwordController,
+        controller: controller.passwordController,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
         obscureText: obscureText,
@@ -146,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: emailController,
+        controller: controller.emailController,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
@@ -173,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Text _buildText() {
     return const Text(
-      "Login Now",
+      "Register",
       style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
     );
   }

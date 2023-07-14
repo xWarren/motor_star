@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:motorstar/pages/profile.dart';
+import 'package:motorstar/profile/profile.dart';
 
 import '../materials/colors.dart';
 import '../materials/images.dart';

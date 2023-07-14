@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motorstar/api/controller/login_controller.dart';
+import 'package:motorstar/profile/profile_controller.dart';
 
 import '../materials/screens.dart';
 
@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  LoginController loginController = Get.find();
+  ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,12 +166,12 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                loginController.emailController.text.toString(),
+                profileController.profileData.value!.data.firstName.toString(),
                 style: const TextStyle(
                     fontSize: 12, color: ColorPalette.titleColor),
               ),
               Text(
-                loginController.passwordController.text.toString(),
+                profileController.profileData.value!.data.lastName.toString(),
                 style: const TextStyle(
                     fontSize: 12, color: ColorPalette.titleColor),
               ),

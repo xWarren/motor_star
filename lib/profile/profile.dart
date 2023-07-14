@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../materials/screens.dart';
-import 'change_password.dart';
+import '../pages/change_password.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
