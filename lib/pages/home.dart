@@ -161,19 +161,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
+        const Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                profileController.profileData.value!.data.firstName.toString(),
-                style: const TextStyle(
-                    fontSize: 12, color: ColorPalette.titleColor),
+                "Juan",
+                style: TextStyle(fontSize: 12, color: ColorPalette.titleColor),
               ),
               Text(
-                profileController.profileData.value!.data.lastName.toString(),
-                style: const TextStyle(
-                    fontSize: 12, color: ColorPalette.titleColor),
+                "Dela Cruz",
+                style: TextStyle(fontSize: 12, color: ColorPalette.titleColor),
               ),
             ],
           ),

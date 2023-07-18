@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motorstar/login/login_controller.dart';
 import 'package:motorstar/pages/home.dart';
 import 'package:motorstar/register/register.dart';
 
 import '../materials/screens.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  bool obscureText = true;
-
-  @override
   Widget build(BuildContext context) {
+    Get.put(LoginController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -90,14 +82,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(10),
                 )),
             onPressed: () {
-              Get.to(const HomeScreen());
+              controller.login();
+              // Get.to(const HomeScreen());
             },
-            child: const Text(
-              "Login",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: ColorPalette.elevatedTextColor),
+            child: Obx(
+              () => controller.isLoading.value
+                  ? const Text(
+                      "Loading....",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: ColorPalette.elevatedTextColor),
+                    )
+                  : const Text(
+                      "Login",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: ColorPalette.elevatedTextColor),
+                    ),
             )),
       ),
     );
@@ -106,31 +109,32 @@ class _LoginScreenState extends State<LoginScreen> {
   SizedBox _buildPasswordField() {
     return SizedBox(
       height: 50,
-      child: TextField(
-        controller: passwordController,
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.done,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-            prefixIcon: Image.asset(Assets.passwordIcon),
-            border: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: ColorPalette.loginBorderColor),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
+      child: Obx(
+        () => TextField(
+          controller: controller.passwordController.value,
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.done,
+          obscureText: controller.obscureText.value,
+          decoration: InputDecoration(
+              prefixIcon: Image.asset(Assets.passwordIcon),
+              border: OutlineInputBorder(
                 borderSide:
-                    const BorderSide(color: ColorPalette.containerColor)),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                setState(() {
-                  obscureText = !obscureText;
-                });
-              },
-              child:
-                  Image.asset(obscureText ? Assets.hideIcon : Assets.showIcon),
-            )),
+                    const BorderSide(color: ColorPalette.loginBorderColor),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide:
+                      const BorderSide(color: ColorPalette.containerColor)),
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  controller.obscureText.toggle();
+                },
+                child: Image.asset(controller.obscureText.isTrue
+                    ? Assets.hideIcon
+                    : Assets.showIcon),
+              )),
+        ),
       ),
     );
   }
@@ -146,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: emailController,
+        controller: controller.emailController.value,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(

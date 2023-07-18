@@ -4,27 +4,15 @@ import 'package:motorstar/register/register_controller.dart';
 
 import '../materials/screens.dart';
 
-class Register extends StatefulWidget {
+class Register extends GetView<RegisterController> {
   const Register({super.key});
 
   @override
-  State<Register> createState() => _RegisterState();
-}
-
-class _RegisterState extends State<Register> {
-  RegisterController controller = Get.put(RegisterController());
-
-  bool obscureText = true;
-  @override
   Widget build(BuildContext context) {
+    Get.put(RegisterController());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Register"),
-        leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: const Icon(Icons.exit_to_app_rounded)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -75,8 +63,8 @@ class _RegisterState extends State<Register> {
                   borderRadius: BorderRadius.circular(10),
                 )),
             onPressed: () {
-              controller.register(controller.emailController.text,
-                  controller.passwordController.text);
+              controller.register(controller.emailController.value.text,
+                  controller.passwordController.value.text);
             },
             child: const Text(
               "Register",
@@ -92,31 +80,32 @@ class _RegisterState extends State<Register> {
   SizedBox _buildPasswordField() {
     return SizedBox(
       height: 50,
-      child: TextField(
-        controller: controller.passwordController,
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.done,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-            prefixIcon: Image.asset(Assets.passwordIcon),
-            border: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: ColorPalette.loginBorderColor),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
+      child: Obx(
+        () => TextField(
+          controller: controller.passwordController.value,
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.done,
+          obscureText: controller.obscureText.isTrue,
+          decoration: InputDecoration(
+              prefixIcon: Image.asset(Assets.passwordIcon),
+              border: OutlineInputBorder(
                 borderSide:
-                    const BorderSide(color: ColorPalette.containerColor)),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                setState(() {
-                  obscureText = !obscureText;
-                });
-              },
-              child:
-                  Image.asset(obscureText ? Assets.hideIcon : Assets.showIcon),
-            )),
+                    const BorderSide(color: ColorPalette.loginBorderColor),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide:
+                      const BorderSide(color: ColorPalette.containerColor)),
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  controller.obscureText.toggle();
+                },
+                child: Image.asset(controller.obscureText.isTrue
+                    ? Assets.hideIcon
+                    : Assets.showIcon),
+              )),
+        ),
       ),
     );
   }
@@ -132,7 +121,7 @@ class _RegisterState extends State<Register> {
     return SizedBox(
       height: 50,
       child: TextField(
-        controller: controller.emailController,
+        controller: controller.emailController.value,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(

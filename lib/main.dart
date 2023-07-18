@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motorstar/materials/screens.dart';
-import 'package:motorstar/pages/login.dart';
+import 'package:motorstar/login/login.dart';
 
 void main() {
   runApp(const MyApp());
